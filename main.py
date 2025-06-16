@@ -15,7 +15,12 @@ with open("scaler2.pkl", "rb") as f:
 @app.route("/predict", methods=["GET", "POST", "OPTIONS"])
 def predict():
     if request.method == "OPTIONS":
-        return jsonify({}), 200
+        response = jsonify({})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+        return response, 200
+
     data = request.get_json()
     processed = preprocess_input(data)
     scaled = scaler.transform([processed])
