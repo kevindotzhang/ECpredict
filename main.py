@@ -6,10 +6,10 @@ import numpy as np
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-# with open("horse_model.pkl", "rb") as f:
-#     model = pickle.load(f)
-# with open("scaler2.pkl", "rb") as f:
-#     scaler = pickle.load(f)
+with open("horse_model.pkl", "rb") as f:
+    model = pickle.load(f)
+with open("scaler2.pkl", "rb") as f:
+    scaler = pickle.load(f)
 
 @app.route("/")
 def home():
@@ -29,20 +29,19 @@ def predict():
         return response, 200
     data = request.get_json()
     processed = preprocess_input(data)
-    # scaled = scaler.transform([processed])
-    # prediction = model.predict(scaled)[0]
-    # probabilities = model.predict_proba(scaled)[0]
+    scaled = scaler.transform([processed])
+    prediction = model.predict(scaled)[0]
+    probabilities = model.predict_proba(scaled)[0]
 
-    # return jsonify({
-    #     "prediction": int(prediction),
-    #     "confidence": float(max(probabilities)),
-    #     "probabilities": {
-    #         "euthanized": float(probabilities[0]),
-    #         "died": float(probabilities[1]),
-    #         "lived": float(probabilities[2])
-    #     }
-    # })
-    return "ok", 200
+    return jsonify({
+        "prediction": int(prediction),
+        "confidence": float(max(probabilities)),
+        "probabilities": {
+            "euthanized": float(probabilities[0]),
+            "died": float(probabilities[1]),
+            "lived": float(probabilities[2])
+        }
+    })
 
 def preprocess_input(input_data):
     return [
