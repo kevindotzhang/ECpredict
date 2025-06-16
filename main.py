@@ -29,19 +29,20 @@ def predict():
         return response, 200
     data = request.get_json()
     processed = preprocess_input(data)
-    scaled = scaler.transform([processed])
-    prediction = model.predict(scaled)[0]
-    probabilities = model.predict_proba(scaled)[0]
+    # scaled = scaler.transform([processed])
+    # prediction = model.predict(scaled)[0]
+    # probabilities = model.predict_proba(scaled)[0]
 
-    return jsonify({
-        "prediction": int(prediction),
-        "confidence": float(max(probabilities)),
-        "probabilities": {
-            "euthanized": float(probabilities[0]),
-            "died": float(probabilities[1]),
-            "lived": float(probabilities[2])
-        }
-    })
+    # return jsonify({
+    #     "prediction": int(prediction),
+    #     "confidence": float(max(probabilities)),
+    #     "probabilities": {
+    #         "euthanized": float(probabilities[0]),
+    #         "died": float(probabilities[1]),
+    #         "lived": float(probabilities[2])
+    #     }
+    # })
+    return "ok", 200
 
 def preprocess_input(input_data):
     return [
