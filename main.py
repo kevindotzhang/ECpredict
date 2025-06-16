@@ -5,22 +5,15 @@ import numpy as np
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 with open("horse_model.pkl", "rb") as f:
     model = pickle.load(f)
 with open("scaler2.pkl", "rb") as f:
     scaler = pickle.load(f)
 
-@app.route("/predict", methods=["GET", "POST", "OPTIONS"])
+@app.route("/predict", methods=["POST"])
 def predict():
-    if request.method == "OPTIONS":
-        response = jsonify({})
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
-        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
-        return response, 200
-
     data = request.get_json()
     processed = preprocess_input(data)
     scaled = scaler.transform([processed])
@@ -38,9 +31,17 @@ def predict():
     })
 
 def preprocess_input(input_data):
-    return [float(input_data.get("pulse", 0)), float(input_data.get("rectal_temp", 0)), float(input_data.get("respiratory_rate", 0)), 3, 3, 2, 3, 3, 2, 7.0, 3, 2, 4, float(input_data.get("packed_cell_volume", 45)), float(input_data.get("total_protein", 7)), 2.0, 1, 1, 1, 0, 0.5]
+    return [
+        float(input_data.get("pulse", 0)),
+        float(input_data.get("rectal_temp", 0)),
+        float(input_data.get("respiratory_rate", 0)),
+        3, 3, 2, 3, 3, 2, 7.0, 3, 2, 4,
+        float(input_data.get("packed_cell_volume", 45)),
+        float(input_data.get("total_protein", 7)),
+        2.0, 1, 1, 1, 0, 0.5
+    ]
 
 if __name__ == '__main__':
-    from os import getenv
-    port = int(getenv('PORT', 8080))
+    port = int(os.environ.get("PORT", "8000"))
+    print(f"✅ Flask app running on port {port}")
     app.run(host='0.0.0.0', port=port)
