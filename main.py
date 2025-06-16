@@ -49,3 +49,8 @@ def preprocess_input(input_data):
         float(input_data.get("total_protein", 7)),
         2.0, 1, 1, 1, 0, 0.5
     ]
+
+if __name__ == '__main__':
+    from os import getenv
+    port = int(getenv('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)
