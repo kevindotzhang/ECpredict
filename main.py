@@ -5,7 +5,6 @@ import os
 
 app = Flask(__name__)
 
-# Load model and scaler
 with open("horse_model.pkl", "rb") as f:
     model = pickle.load(f)
 with open("scaler2.pkl", "rb") as f:
@@ -30,7 +29,6 @@ def predict():
     })
 
 def preprocess_input(input_data):
-    # Your preprocessing logic (shortened here for space)
     return [float(input_data.get("pulse", 0)), float(input_data.get("rectal_temp", 0)), float(input_data.get("respiratory_rate", 0)), 3, 3, 2, 3, 3, 2, 7.0, 3, 2, 4, float(input_data.get("packed_cell_volume", 45)), float(input_data.get("total_protein", 7)), 2.0, 1, 1, 1, 0, 0.5]
 
 if __name__ == "__main__":
