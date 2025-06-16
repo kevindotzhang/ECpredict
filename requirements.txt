@@ -5,3 +5,4 @@ lightgbm==3.3.5
 joblib==1.2.0
 flask
 flask-cors==3.0.10
+gunicorn

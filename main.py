@@ -40,8 +40,3 @@ def preprocess_input(input_data):
         float(input_data.get("total_protein", 7)),
         2.0, 1, 1, 1, 0, 0.5
     ]
-
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", "8000"))
-    print(f"✅ Flask app running on port {port}")
-    app.run(host='0.0.0.0', port=port)
