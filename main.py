@@ -6,10 +6,10 @@ import numpy as np
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-with open("horse_model.pkl", "rb") as f:
-    model = pickle.load(f)
-with open("scaler2.pkl", "rb") as f:
-    scaler = pickle.load(f)
+# with open("horse_model.pkl", "rb") as f:
+#     model = pickle.load(f)
+# with open("scaler2.pkl", "rb") as f:
+#     scaler = pickle.load(f)
 
 @app.route("/")
 def home():
@@ -58,3 +58,5 @@ if __name__ == '__main__':
     from os import getenv
     port = int(getenv('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
+
+print("Flask app loaded successfully")
