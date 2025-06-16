@@ -2,18 +2,23 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pickle
 import numpy as np
-import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, supports_credentials=True)
 
 with open("horse_model.pkl", "rb") as f:
     model = pickle.load(f)
 with open("scaler2.pkl", "rb") as f:
     scaler = pickle.load(f)
-    
+
 @app.route("/predict", methods=["POST", "OPTIONS"])
 def predict():
+    if request.method == "OPTIONS":
+        response = jsonify({ "status": "OK" })
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+        return response, 200
     data = request.get_json()
     processed = preprocess_input(data)
     scaled = scaler.transform([processed])
