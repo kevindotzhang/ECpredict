@@ -31,5 +31,7 @@ def predict():
 def preprocess_input(input_data):
     return [float(input_data.get("pulse", 0)), float(input_data.get("rectal_temp", 0)), float(input_data.get("respiratory_rate", 0)), 3, 3, 2, 3, 3, 2, 7.0, 3, 2, 4, float(input_data.get("packed_cell_volume", 45)), float(input_data.get("total_protein", 7)), 2.0, 1, 1, 1, 0, 0.5]
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+if __name__ == '__main__':
+    from os import getenv
+    port = int(getenv('PORT', 8000))
+    app.run(host='0.0.0.0', port=port)
