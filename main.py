@@ -11,6 +11,10 @@ with open("horse_model.pkl", "rb") as f:
 with open("scaler2.pkl", "rb") as f:
     scaler = pickle.load(f)
 
+@app.route("/")
+def home():
+    return "live", 200
+
 @app.route("/predict", methods=["POST", "OPTIONS"])
 def predict():
     if request.method == "OPTIONS":
