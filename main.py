@@ -42,5 +42,5 @@ def preprocess_input(input_data):
 
 if __name__ == '__main__':
     from os import getenv
-    port = int(getenv('PORT', 8000))
+    port = int(getenv('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
