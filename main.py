@@ -15,6 +15,10 @@ with open("scaler2.pkl", "rb") as f:
 def home():
     return "live", 200
 
+@app.route("/crash-test")
+def crash_test():
+    return "ok", 200
+
 @app.route("/predict", methods=["POST", "OPTIONS"])
 def predict():
     if request.method == "OPTIONS":
